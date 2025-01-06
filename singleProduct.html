@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    
+    <style>
+        body{
+            background-color: #45b845;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            margin-top: 40px;
+        }
+        .container{
+            margin-left:  8px;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+        del{
+            text-decoration-color: red;
+        }
+    </style>
+</head>
+<body>
+    
+    
+    <div class="container">
+      <!-- Rendered by JS, BOOTSTRAP-->
+    </div>
+
+    <div class="reviews text-white">
+        <!-- Rendered by JS, BOOTSTRAP -->
+    </div>
+
+
+    <!--! JavaScript -->
+<script>
+    const data = localStorage.getItem('id');
+    console.log(data);
+
+    const div = document.querySelector(".container");
+    const reviews = document.querySelector(".reviews");
+
+
+    fetch(`https://dummyjson.com/products/${data}`)
+    .then(res => res.json())
+    .then(res => {
+        console.log(res);
+        const oldPrice = res.price * (1 + res.discountPercentage / 100);
+
+        div.innerHTML = `
+        <div class=" text-white" style="width: 18rem; ">
+            <img src="${res.thumbnail}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${res.title}</h5>
+                <h3 >Price: <del>  $${oldPrice.toFixed(2)}</del> <ins class="text-decoration-none text-danger"> &nbsp $${res.price.toFixed(1)}</h3>
+                <p class="card-text"><br/><b><u>Description:</u></b> <br/>${res.description}</p>
+                <a href="./index.html" class="btn btn-primary">Go Back</a>
+            </div>
+        </div>`
+
+        res.reviews.map(item => {
+            // console.log(item.rating);
+            const formattedDate = new Date(item.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            let stars = ""; 
+            
+            switch (item.rating) {
+                case 1:
+                    stars = "⭐☆☆☆☆";
+                    break;
+                case 2:
+                    stars = "⭐⭐☆☆☆";
+                    break;
+                case 3:
+                    stars = "⭐⭐⭐☆☆";
+                    break;
+                case 4:
+                    stars = "⭐⭐⭐⭐☆";
+                    break;
+                case 5:
+                    stars = "⭐⭐⭐⭐⭐";
+                    break;
+                default:
+                    stars = "☆☆☆☆☆";
+                    break;
+            }
+
+            reviews.innerHTML += `   
+            <div class="media border p-3">
+                <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="Review" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                    <h4>${item.reviewerName} <small><i>Posted on  ${formattedDate}</i></small></h4>
+                    <h5>Rating: ${stars}</h5>
+                    <p>${item.comment}</p>
+                </div>
+            </div>
+            `
+        })
+    })
+    .catch(err => console.log(err))
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
