@@ -58,6 +58,13 @@ const addToCart = (id) => {
     if (checkIndex === -1) {
       product.quantity = 1;
       cart.push(product);
+
+      Swal.fire({
+        title: "Item Added",
+        icon: "success",
+        draggable: true
+      });
+      
     } else {
       cart[checkIndex].quantity += 1;
     }
