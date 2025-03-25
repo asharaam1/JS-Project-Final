@@ -1,5 +1,5 @@
-body{
-    background-color: #45b845;
+body {
+    background-color: #4f624b;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -7,6 +7,15 @@ body{
     /* margin-top: 40px; */
 }
 
-.banner-1{
+.navbar a {
+    color: white !important;
+    /*"!important" used to prioritize your custom CSS*/
+}
+
+.card-body {
+    background-color: #98b5ae;
+}
+
+.banner-1 {
     object-fit: contain;
 }
